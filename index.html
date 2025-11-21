@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Publicity Media</title>
+    <link rel="icon" href="https://i.ibb.co/mFhdSdm4/Logo.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <script>
@@ -117,6 +118,21 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="text" name="subject" />
+      <input type="hidden" name="form-name" value="contact" />
+    </form>
+    
+    <form name="booking" netlify netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="date" />
+      <textarea name="details"></textarea>
+      <input type="hidden" name="form-name" value="booking" />
+    </form>
     <div id="root"></div>
   <script type="module" src="/index.tsx"></script>
 </body>

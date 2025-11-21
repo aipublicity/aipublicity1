@@ -78,8 +78,8 @@ export const PRICING_SOCIAL: PricingTier[] = [
 export const PRICING_AI_AGENT: PricingTier[] = [
   {
     name: "AI Starter Pack",
-    price: "$159/mo",
-    originalPrice: "$199/mo",
+    price: "$239/mo",
+    originalPrice: "$299/mo",
     setupFee: "$249 setup fee",
     features: [
       "Inbound calls (300/mo)",
@@ -89,8 +89,8 @@ export const PRICING_AI_AGENT: PricingTier[] = [
   },
   {
     name: "AI Business Pack",
-    price: "$319/mo",
-    originalPrice: "$399/mo",
+    price: "$399/mo",
+    originalPrice: "$499/mo",
     setupFee: "$249 setup fee",
     features: [
       "Inbound + outbound calling",
@@ -102,8 +102,8 @@ export const PRICING_AI_AGENT: PricingTier[] = [
   },
   {
     name: "AI Pro Automation",
-    price: "$639/mo",
-    originalPrice: "$799/mo",
+    price: "$719/mo",
+    originalPrice: "$899/mo",
     setupFee: "$249 setup fee",
     features: [
       "Unlimited calls",
@@ -117,8 +117,8 @@ export const PRICING_AI_AGENT: PricingTier[] = [
 export const PRICING_BUNDLES: PricingTier[] = [
   {
     name: "Growth Pack",
-    price: "$479/mo",
-    originalPrice: "$599/mo",
+    price: "$559/mo",
+    originalPrice: "$699/mo",
     features: [
       "Starter social content",
       "AI inbound calling + scheduling",
@@ -128,8 +128,8 @@ export const PRICING_BUNDLES: PricingTier[] = [
   },
   {
     name: "Business Expansion",
-    price: "$719/mo",
-    originalPrice: "$899/mo",
+    price: "$799/mo",
+    originalPrice: "$999/mo",
     features: [
       "Intermediate content",
       "Inbound + outbound AI",
@@ -140,8 +140,8 @@ export const PRICING_BUNDLES: PricingTier[] = [
   },
   {
     name: "Brand Domination",
-    price: "$1,199/mo",
-    originalPrice: "$1,499/mo",
+    price: "$1,279/mo",
+    originalPrice: "$1,599/mo",
     features: [
       "Pro-level content",
       "Full AI automation suite",

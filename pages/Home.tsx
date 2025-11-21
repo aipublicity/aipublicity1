@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, PlayCircle, Cpu, TrendingUp } from 'lucide-react';
+import { ArrowRight, PlayCircle, Cpu, TrendingUp, Sparkles } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 const Home: React.FC = () => {
@@ -46,8 +46,8 @@ const Home: React.FC = () => {
               to="/services" 
               className="group w-full sm:w-auto px-8 py-4 rounded-full bg-slate-900/50 border border-white/10 text-white font-semibold text-lg hover:bg-slate-800 hover:border-white/30 transition-all flex items-center justify-center gap-2 backdrop-blur-sm"
             >
-              View Our Work
-              <PlayCircle className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
+              View Our Services
+              <Sparkles className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
             </Link>
           </div>
         </div>
