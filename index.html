@@ -58,19 +58,51 @@
       body {
         background-color: #020617;
         color: #ffffff;
+        /* Enable font smoothing for sharper text */
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
       }
       
-      ::-webkit-scrollbar { width: 8px; }
-      ::-webkit-scrollbar-track { background: #0f172a; }
-      ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-      ::-webkit-scrollbar-thumb:hover { background: #475569; }
-      .perspective-1000 { perspective: 1000px; }
-      svg { shape-rendering: geometricPrecision; text-rendering: geometricPrecision; }
-      img { -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translateZ(0); }
-      .gpu-optimized { transform: translateZ(0); -webkit-transform: translateZ(0); backface-visibility: hidden; -webkit-backface-visibility: hidden; will-change: transform; }
+      /* Custom scrollbar for dark theme */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0f172a;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
+      }
+      .perspective-1000 {
+        perspective: 1000px;
+      }
+
+      /* Force sharp SVG rendering */
+      svg {
+        shape-rendering: geometricPrecision;
+        text-rendering: geometricPrecision;
+      }
+
+      /* Prevent image blurriness during scaling */
+      img {
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+      }
+
+      /* Optimization for animated elements to use GPU */
+      .gpu-optimized {
+        transform: translateZ(0);
+        -webkit-transform: translateZ(0);
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        will-change: transform;
+      }
     </style>
   <script type="importmap">
 {
@@ -86,21 +118,40 @@
 <link rel="stylesheet" href="/index.css">
 </head>
   <body>
-    <form name="contact" netlify hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <textarea name="message"></textarea>
-      <input type="text" name="subject" />
-    </form>
-    
-    <form name="booking" netlify hidden>
-      <input type="text" name="name" />
-      <input type="email" name="email" />
-      <input type="text" name="date" />
-      <textarea name="details"></textarea>
-    </form>
-    
     <div id="root"></div>
+    
+    <!-- Netlify Forms for Static Analysis -->
+    <form name="contact" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="bot-field" />
+      <input type="text" name="firstName" />
+      <input type="text" name="lastName" />
+      <input type="email" name="email" />
+      <select name="service"></select>
+      <textarea name="message"></textarea>
+    </form>
+
+    <form name="booking" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="bot-field" />
+      <input type="text" name="package" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="date" name="date" />
+      <select name="time"></select>
+      <textarea name="notes"></textarea>
+    </form>
+
+    <form name="free-ads" netlify netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="text" name="socialHandle" />
+      <input type="email" name="email" />
+      <input type="tel" name="phone" />
+      <input type="text" name="businessType" />
+      <select name="budget"></select>
+      <textarea name="goals"></textarea>
+      <textarea name="additionalInfo"></textarea>
+    </form>
   <script type="module" src="/index.tsx"></script>
 </body>
 </html>

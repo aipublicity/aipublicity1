@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Heart, Users, Video, TrendingUp, Instagram, CheckCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { Send, Heart, Users, Video, TrendingUp, Instagram, CheckCircle, ArrowRight } from 'lucide-react';
 
 // Custom TikTok Icon
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -20,7 +20,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 
 const FreeAds: React.FC = () => {
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [submitted, setSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     socialHandle: '',
@@ -38,29 +38,29 @@ const FreeAds: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setStatus('submitting');
-    window.scrollTo(0, 0);
-
-    const data = new URLSearchParams();
-    data.append('form-name', 'freeads'); // CRITICAL: Tells Netlify which form to use
-    Object.entries(formData).forEach(([key, value]) => data.append(key, value));
+    
+    const formBody = new URLSearchParams();
+    formBody.append('form-name', 'free-ads');
+    Object.keys(formData).forEach(key => {
+      formBody.append(key, (formData as any)[key]);
+    });
 
     fetch('/', {
       method: 'POST',
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: data.toString()
+      body: formBody.toString()
     })
     .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Netlify Error: ${response.status}`);
+      if (response.ok) {
+        setSubmitted(true);
+        window.scrollTo(0, 0);
+      } else {
+        alert("There was an issue submitting your application. Please try again.");
       }
-      setStatus('success');
-      // Clear form data on success
-      setFormData({ name: '', socialHandle: '', email: '', phone: '', businessType: '', budget: '', goals: '', additionalInfo: '' });
     })
     .catch((error) => {
-      alert("Submission Failed! Error: " + error.message); // Alert user of the exact error code
-      setStatus('error');
+      alert("Network error. Please try again later.");
+      console.error(error);
     });
   };
 
@@ -129,8 +129,8 @@ const FreeAds: React.FC = () => {
           </div>
           
           <div className="p-8 md:p-12">
-            {status === 'success' ? (
-                <div className="text-center py-12">
+            {submitted ? (
+               <div className="text-center py-12">
                 <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
                   <CheckCircle className="w-12 h-12 text-green-400" />
                 </div>
@@ -138,13 +138,12 @@ const FreeAds: React.FC = () => {
                 <p className="text-slate-400 max-w-md mx-auto mb-8 text-lg">
                   Thank you for applying. We will review your business details and reach out if you are selected for the next slot in our series!
                 </p>
-                <button onClick={() => setStatus('idle')} className="text-cyan-400 font-semibold hover:underline">Submit another application</button>
+                <button onClick={() => setSubmitted(false)} className="text-cyan-400 font-semibold hover:underline">Submit another application</button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
-                {/* CORE FIX: The hidden form field needed by Netlify */}
-                <input type="hidden" name="form-name" value="freeads" /> 
-
+                <input type="hidden" name="form-name" value="free-ads" />
+                
                 {/* Personal Info */}
                 <div className="space-y-4">
                     <h4 className="text-sm uppercase tracking-wider text-slate-500 font-semibold flex items-center gap-2">
@@ -182,7 +181,7 @@ const FreeAds: React.FC = () => {
                         </div>
                     </div>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label className="block text-sm font-medium text-slate-400 mb-2">Email Address</label>
                             <input 
@@ -212,7 +211,7 @@ const FreeAds: React.FC = () => {
 
                 {/* Business Info */}
                 <div className="space-y-4">
-                    <h4 className="text-sm uppercase tracking-wider text-slate-500 font-semibold flex items-center gap-2">
+                     <h4 className="text-sm uppercase tracking-wider text-slate-500 font-semibold flex items-center gap-2">
                         <span className="w-8 h-[1px] bg-slate-700"></span> Business Details
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -254,7 +253,7 @@ const FreeAds: React.FC = () => {
 
                 {/* Goals & Questions */}
                 <div className="space-y-4">
-                    <h4 className="text-sm uppercase tracking-wider text-slate-500 font-semibold flex items-center gap-2">
+                     <h4 className="text-sm uppercase tracking-wider text-slate-500 font-semibold flex items-center gap-2">
                         <span className="w-8 h-[1px] bg-slate-700"></span> Your Vision
                     </h4>
                     <div>
@@ -285,26 +284,13 @@ const FreeAds: React.FC = () => {
 
                 <button 
                   type="submit" 
-                  disabled={status === 'submitting'}
-                  className="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-purple-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-purple-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group"
                 >
-                  {status === 'submitting' ? (
-                      <>
-                        <Loader2 className="w-6 h-6 animate-spin" />
-                        <span>Submitting...</span>
-                      </>
-                  ) : (
-                      <>
-                        <span>Submit Application</span>
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </>
-                  )}
+                  <span>Submit Application</span>
+                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </button>
-                {status === 'error' && (
-                    <p className="text-red-400 text-center text-sm">Application failed. Please refresh and try again.</p>
-                )}
                 <p className="text-xs text-slate-500 text-center mt-2">
-                    Limited to one free video per business. By submitting, you agree to our community guidelines.
+                  Limited to one free video per business. By submitting, you agree to our community guidelines.
                 </p>
               </form>
             )}
