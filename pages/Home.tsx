@@ -62,9 +62,9 @@ const TypewriterText = () => {
   }, [text, isDeleting, wordIndex]);
 
   return (
-    <span className="inline-flex items-center">
+    <span className="inline-flex items-center justify-center whitespace-nowrap leading-none pt-2 pb-2">
        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 font-extrabold">
-        {text}
+        {text || '\u00A0'}
        </span>
        <span className="text-cyan-400 animate-pulse ml-1">|</span>
     </span>
@@ -93,7 +93,10 @@ const Home: React.FC = () => {
           
           <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 leading-tight drop-shadow-2xl">
             <span className="block mb-2 md:mb-4">We Automate Growth for</span>
-            <span className="block min-h-[1.3em]"><TypewriterText /></span>
+            {/* Fixed height container to prevent layout shift */}
+            <div className="flex justify-center items-center h-[1.5em] overflow-hidden">
+              <TypewriterText />
+            </div>
           </h1>
           
           <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
