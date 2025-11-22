@@ -1,7 +1,75 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, PlayCircle, Cpu, TrendingUp, Sparkles } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+import TechStack from '../components/TechStack';
+
+const TypewriterText = () => {
+  const words = [
+    "Coffee Shops", "Realtors", "Gyms", "Restaurants", "Startups",
+    "Creators", "Dentists", "Law Firms", "E-commerce", "Local Biz", "YOU"
+  ];
+  
+  const [text, setText] = useState('');
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  
+  useEffect(() => {
+    const currentWord = words[wordIndex];
+    const isLastWord = wordIndex === words.length - 1; // "YOU"
+    
+    // Dynamic timing logic
+    let timeoutSpeed = 50;
+
+    if (isDeleting) {
+      // Deleting Phase
+      // If it's the last word ("YOU"), delete at normal speed. 
+      // For "scramble" words, delete almost instantly.
+      timeoutSpeed = isLastWord ? 75 : 15; 
+    } else {
+      // Typing Phase
+      // If it's "YOU", type normally. 
+      // For "scramble" words, type extremely fast.
+      timeoutSpeed = isLastWord ? 150 : 25; 
+    }
+
+    // Pause logic at full word
+    if (!isDeleting && text === currentWord) {
+       if (isLastWord) {
+         timeoutSpeed = 5000; // Freeze 5s on "YOU"
+       } else {
+         timeoutSpeed = 50; // Barely pause on rapid-fire words
+       }
+    } else if (isDeleting && text === '') {
+       timeoutSpeed = 10; // Instant switch to next word
+    }
+
+    const timer = setTimeout(() => {
+      if (!isDeleting && text === currentWord) {
+        setIsDeleting(true);
+      } else if (isDeleting && text === '') {
+        setIsDeleting(false);
+        setWordIndex((prev) => (prev + 1) % words.length);
+      } else {
+        const nextText = isDeleting 
+          ? currentWord.substring(0, text.length - 1)
+          : currentWord.substring(0, text.length + 1);
+        setText(nextText);
+      }
+    }, timeoutSpeed);
+
+    return () => clearTimeout(timer);
+  }, [text, isDeleting, wordIndex]);
+
+  return (
+    <span className="inline-flex items-center">
+       <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500 font-extrabold">
+        {text}
+       </span>
+       <span className="text-cyan-400 animate-pulse ml-1">|</span>
+    </span>
+  );
+};
 
 const Home: React.FC = () => {
   const { content } = useContent();
@@ -23,8 +91,8 @@ const Home: React.FC = () => {
             <span className="text-sm text-cyan-300 font-bold tracking-wide">AI-Powered Social Media Agency</span>
           </div>
           
-          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 leading-tight drop-shadow-2xl">
-            {content.hero.title}
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 leading-tight drop-shadow-2xl min-h-[1.2em]">
+            We Automate Growth for <br className="md:hidden" /> <TypewriterText />
           </h1>
           
           <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
@@ -52,6 +120,9 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Tech Stack Marquee */}
+      <TechStack />
 
       {/* Quick Features */}
       <section className="py-24 bg-slate-950 relative">

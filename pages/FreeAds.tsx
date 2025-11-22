@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Send, Heart, Users, Video, TrendingUp, Instagram, CheckCircle, ArrowRight } from 'lucide-react';
+import FreeAdsTimeline from '../components/FreeAdsTimeline';
 
 // Custom TikTok Icon
 const TikTokIcon = ({ className }: { className?: string }) => (
@@ -35,6 +36,22 @@ const FreeAds: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  // Calculate Form Progress based on required fields
+  const calculateProgress = () => {
+    let filled = 0;
+    const requiredFields = ['name', 'email', 'phone', 'businessType', 'budget', 'goals'];
+    
+    requiredFields.forEach(field => {
+      if (formData[field as keyof typeof formData].trim().length > 0) {
+        filled++;
+      }
+    });
+    
+    return (filled / requiredFields.length) * 100;
+  };
+
+  const progress = calculateProgress();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,12 +138,26 @@ const FreeAds: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {/* Process Timeline */}
+      <FreeAdsTimeline />
 
       {/* Form Section */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
         <div className="bg-slate-900 rounded-3xl border border-white/10 overflow-hidden shadow-2xl relative group">
           <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-[2rem] opacity-20 group-hover:opacity-30 transition duration-1000 blur-lg"></div>
-          <div className="relative bg-slate-900 rounded-3xl h-full">
+          <div className="relative bg-slate-900 rounded-3xl h-full flex flex-col">
+            
+          {/* Progress Bar */}
+          {!submitted && (
+            <div className="w-full h-1.5 bg-slate-800">
+              <div 
+                className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          )}
+
           <div className="bg-gradient-to-r from-purple-900/80 to-slate-900 p-10 text-center border-b border-white/10">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-3">Get Featured Today</h2>
             <p className="text-slate-300 text-lg">Apply now to be the next business featured in our Free Ads Series.</p>
@@ -316,7 +347,11 @@ const FreeAds: React.FC = () => {
 
                 <button 
                   type="submit" 
-                  className="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white font-bold text-lg shadow-xl hover:shadow-purple-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group"
+                  className={`w-full py-4 rounded-xl text-white font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 group ${
+                    progress === 100 
+                    ? 'bg-gradient-to-r from-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(34,211,238,0.4)] animate-pulse ring-1 ring-cyan-400' 
+                    : 'bg-gradient-to-r from-purple-600 to-cyan-600 shadow-xl hover:shadow-purple-500/25'
+                  }`}
                 >
                   <span>Submit Application</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />

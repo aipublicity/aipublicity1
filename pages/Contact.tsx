@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Mail, CheckCircle, Loader2, Phone, Instagram, Share2 } from 'lucide-react';
+import { Send, Mail, CheckCircle, Phone, Instagram, Share2 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 // Custom TikTok Icon
@@ -35,6 +35,23 @@ const Contact: React.FC = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
+
+  // Calculate Form Progress
+  const calculateProgress = () => {
+    let filled = 0;
+    const total = 5; // firstName, lastName, email, service, message
+    
+    if (formData.firstName.trim().length > 0) filled++;
+    if (formData.lastName.trim().length > 0) filled++;
+    if (formData.email.trim().length > 0) filled++;
+    // Service always has a value, so it counts as filled
+    if (formData.service.length > 0) filled++;
+    if (formData.message.trim().length > 0) filled++;
+    
+    return (filled / total) * 100;
+  };
+
+  const progress = calculateProgress();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,9 +153,21 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Form */}
-          <div className="bg-slate-900 p-8 md:p-10 rounded-3xl border border-white/10 shadow-2xl relative group">
+          <div className="rounded-3xl border border-white/10 shadow-2xl relative group">
              <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-3xl opacity-20 group-hover:opacity-40 transition duration-500 blur"></div>
-            <div className="relative bg-slate-900 rounded-2xl h-full">
+            <div className="relative bg-slate-900 rounded-3xl h-full overflow-hidden flex flex-col">
+              
+              {/* Progress Bar */}
+              {!submitted && (
+                <div className="w-full h-1.5 bg-slate-800">
+                  <div 
+                    className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                    style={{ width: `${progress}%` }}
+                  ></div>
+                </div>
+              )}
+
+            <div className="p-8 md:p-10 h-full">
             {submitted ? (
               <div className="text-center py-12 flex flex-col items-center justify-center h-full">
                 <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
@@ -223,12 +252,20 @@ const Contact: React.FC = () => {
                   ></textarea>
                 </div>
 
-                <button type="submit" className="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-xl text-white font-bold text-lg shadow-lg hover:shadow-cyan-500/25 transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2">
+                <button 
+                  type="submit" 
+                  className={`w-full py-4 rounded-xl text-white font-bold text-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${
+                    progress === 100 
+                    ? 'bg-gradient-to-r from-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(34,211,238,0.4)] animate-pulse ring-1 ring-cyan-400' 
+                    : 'bg-gradient-to-r from-purple-600 to-cyan-600 shadow-lg hover:shadow-cyan-500/25'
+                  }`}
+                >
                   <span>Send Message</span>
                   <Send className="w-5 h-5" />
                 </button>
               </form>
             )}
+            </div>
             </div>
           </div>
 

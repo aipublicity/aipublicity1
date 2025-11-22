@@ -29,6 +29,22 @@ const Booking: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Calculate Form Progress based on required fields
+  const calculateProgress = () => {
+    let filled = 0;
+    const requiredFields = ['name', 'email', 'phone', 'date', 'time'];
+    
+    requiredFields.forEach(field => {
+      if (formData[field as keyof typeof formData].trim().length > 0) {
+        filled++;
+      }
+    });
+    
+    return (filled / requiredFields.length) * 100;
+  };
+
+  const progress = calculateProgress();
+
   const getMeetingDate = () => {
     if (!formData.date || !formData.time) return null;
     
@@ -159,6 +175,17 @@ const Booking: React.FC = () => {
         )}
 
         <div className="bg-slate-900 rounded-2xl border border-white/10 overflow-hidden shadow-2xl">
+          
+          {/* Progress Bar */}
+          {!submitted && (
+            <div className="w-full h-1.5 bg-slate-800">
+              <div 
+                className="h-full bg-gradient-to-r from-purple-500 to-cyan-400 transition-all duration-500 ease-out shadow-[0_0_10px_rgba(34,211,238,0.5)]"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          )}
+
           {submitted ? (
             <div className="p-8 md:p-12 text-center bg-gradient-to-b from-slate-900 to-slate-950">
               <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
@@ -336,7 +363,14 @@ const Booking: React.FC = () => {
                     ></textarea>
                   </div>
 
-                  <button type="submit" className="w-full py-4 bg-gradient-to-r from-purple-600 to-cyan-600 rounded-lg text-white font-bold hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all transform hover:scale-[1.01]">
+                  <button 
+                    type="submit" 
+                    className={`w-full py-4 rounded-lg text-white font-bold transition-all transform hover:scale-[1.01] ${
+                      progress === 100 
+                      ? 'bg-gradient-to-r from-cyan-500 to-purple-600 shadow-[0_0_30px_rgba(34,211,238,0.4)] animate-pulse ring-1 ring-cyan-400' 
+                      : 'bg-gradient-to-r from-purple-600 to-cyan-600 hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]'
+                    }`}
+                  >
                     Confirm Booking & Add to Calendar
                   </button>
                   

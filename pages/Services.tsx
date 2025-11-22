@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Check, Video, Bot, Zap, Share2, PenTool, Cpu, Tag } from 'lucide-react';
+import { Check, Video, Bot, Zap, Share2, PenTool, Cpu, Tag, ArrowDown } from 'lucide-react';
 import { SERVICES_LIST, PRICING_SOCIAL, PRICING_AI_AGENT, PRICING_BUNDLES } from '../constants';
 import { PricingTier } from '../types';
+import ProjectTimeline from '../components/ProjectTimeline';
 
 const iconMap: any = {
   Video: Video,
@@ -95,8 +96,11 @@ const Services: React.FC = () => {
           {SERVICES_LIST.map((service, index) => {
             const Icon = iconMap[service.iconName] || Zap;
             return (
-              <div key={index} className="p-8 bg-slate-900 rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all group hover:-translate-y-2 duration-500 hover:shadow-2xl hover:shadow-purple-500/10">
-                <div className="w-14 h-14 rounded-2xl bg-slate-800 border border-white/5 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 group-hover:bg-gradient-to-br group-hover:from-purple-600/20 group-hover:to-blue-600/20 group-hover:border-purple-500/30">
+              <div 
+                key={index} 
+                className="p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-lg transition-all duration-300 group hover:scale-105 hover:border-cyan-400 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)]"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-slate-800/50 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500 group-hover:bg-gradient-to-br group-hover:from-purple-600/20 group-hover:to-blue-600/20 group-hover:border-purple-500/30">
                     <Icon className="w-7 h-7 text-purple-500 group-hover:text-cyan-400 transition-colors duration-300" />
                 </div>
                 <h3 className="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition-colors">{service.title}</h3>
@@ -119,20 +123,33 @@ const Services: React.FC = () => {
           </p>
           
           {/* Tabs */}
-          <div className="inline-flex p-1.5 space-x-2 bg-slate-900 rounded-2xl border border-white/10">
-            {(['social', 'ai', 'bundles'] as const).map((tab) => (
-              <button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                className={`px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 ${
-                  activeTab === tab
-                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg scale-105'
-                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
-                }`}
-              >
-                {tab === 'social' ? 'Social Media' : tab === 'ai' ? 'AI Agents' : 'Growth Bundles'}
-              </button>
-            ))}
+          <div className="flex flex-col items-center">
+            <div className="inline-flex p-1.5 space-x-2 bg-slate-900 rounded-2xl border border-white/10">
+              {(['social', 'ai', 'bundles'] as const).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300 ${
+                    activeTab === tab
+                      ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-lg scale-105'
+                      : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                  }`}
+                >
+                  {tab === 'social' ? 'Social Media' : tab === 'ai' ? 'AI Agents' : 'Growth Bundles'}
+                </button>
+              ))}
+            </div>
+
+            {/* Blueprint Notification Hint */}
+            <button 
+              onClick={() => document.getElementById('blueprint')?.scrollIntoView({ behavior: 'smooth' })}
+              className="mt-5 flex items-center gap-2 text-xs md:text-sm text-slate-400 hover:text-cyan-400 transition-colors animate-pulse hover:animate-none group"
+            >
+               <ArrowDown className="w-4 h-4 text-cyan-400 group-hover:translate-y-1 transition-transform" />
+               <span>
+                 Scroll down to view the <span className="font-bold text-cyan-400">{activeTab === 'social' ? 'Viral Blueprint' : activeTab === 'ai' ? 'Efficiency Blueprint' : 'Domination Blueprint'}</span>
+               </span>
+            </button>
           </div>
         </div>
 
@@ -141,6 +158,11 @@ const Services: React.FC = () => {
           {activeTab === 'social' && PRICING_SOCIAL.map(renderPricingCard)}
           {activeTab === 'ai' && PRICING_AI_AGENT.map(renderPricingCard)}
           {activeTab === 'bundles' && PRICING_BUNDLES.map(renderPricingCard)}
+        </div>
+
+        {/* Roadmap Section */}
+        <div id="blueprint" className="scroll-mt-32">
+           <ProjectTimeline activeTab={activeTab} />
         </div>
 
         <div className="mt-20 text-center bg-gradient-to-r from-slate-900 to-slate-950 p-10 rounded-3xl border border-white/5 hover:border-cyan-500/30 transition-all duration-500 group hover:shadow-[0_0_50px_rgba(124,58,237,0.1)]">
