@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
-import { Send, Mail, MessageSquare, CheckCircle, Loader2 } from 'lucide-react';
+import { Send, Mail, MessageSquare, CheckCircle, Loader2, Phone, Instagram, Share2 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
+
+// Custom TikTok Icon
+const TikTokIcon = ({ className }: { className?: string }) => (
+  <svg 
+    xmlns="http://www.w3.org/2000/svg" 
+    width="24" 
+    height="24" 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round" 
+    className={className}
+  >
+    <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+  </svg>
+);
 
 const Contact: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
@@ -62,6 +80,7 @@ const Contact: React.FC = () => {
             </p>
             
             <div className="space-y-6">
+              {/* Email Block */}
               <div className="flex items-center space-x-4 p-5 rounded-2xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all hover:-translate-x-[-8px] duration-300 cursor-default">
                 <div className="p-3 bg-cyan-500/10 rounded-xl group-hover:bg-cyan-500/20 transition-colors">
                     <Mail className="w-6 h-6 text-cyan-400 group-hover:animate-bounce" />
@@ -71,6 +90,19 @@ const Contact: React.FC = () => {
                   <p className="text-white font-bold text-lg">{content.contact.email}</p>
                 </div>
               </div>
+
+              {/* Phone Block */}
+              <div className="flex items-center space-x-4 p-5 rounded-2xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all hover:-translate-x-[-8px] duration-300 cursor-default">
+                <div className="p-3 bg-blue-500/10 rounded-xl group-hover:bg-blue-500/20 transition-colors">
+                    <Phone className="w-6 h-6 text-blue-400 group-hover:animate-tada" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 font-medium mb-1">Call Us</p>
+                  <p className="text-white font-bold text-lg">{content.contact.phone}</p>
+                </div>
+              </div>
+
+              {/* Live Chat Block */}
                <div className="flex items-center space-x-4 p-5 rounded-2xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all hover:-translate-x-[-8px] duration-300 cursor-default">
                 <div className="p-3 bg-purple-500/10 rounded-xl group-hover:bg-purple-500/20 transition-colors">
                     <MessageSquare className="w-6 h-6 text-purple-400 group-hover:animate-tada" />
@@ -80,6 +112,37 @@ const Contact: React.FC = () => {
                   <p className="text-white font-bold text-lg">Available Mon-Fri, 9am-5pm</p>
                 </div>
               </div>
+
+              {/* Socials Block */}
+              <div className="flex items-center space-x-4 p-5 rounded-2xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all hover:-translate-x-[-8px] duration-300">
+                <div className="p-3 bg-pink-500/10 rounded-xl group-hover:bg-pink-500/20 transition-colors">
+                    <Share2 className="w-6 h-6 text-pink-400 group-hover:animate-pulse" />
+                </div>
+                <div>
+                  <p className="text-sm text-slate-500 font-medium mb-2">Follow Us</p>
+                  <div className="flex items-center gap-3">
+                      <a 
+                        href="https://instagram.com/ai.publicity" 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="p-2 bg-slate-800 rounded-lg border border-white/5 hover:bg-pink-500/20 hover:text-pink-400 hover:border-pink-500/30 transition-all group/insta"
+                        aria-label="Instagram"
+                      >
+                        <Instagram className="w-5 h-5 group-hover/insta:scale-110 transition-transform" />
+                      </a>
+                      <a 
+                        href="https://tiktok.com/@ai.publicity" 
+                        target="_blank" 
+                        rel="noreferrer" 
+                        className="p-2 bg-slate-800 rounded-lg border border-white/5 hover:bg-cyan-500/20 hover:text-cyan-400 hover:border-cyan-500/30 transition-all group/tiktok"
+                        aria-label="TikTok"
+                      >
+                        <TikTokIcon className="w-5 h-5 group-hover/tiktok:scale-110 transition-transform" />
+                      </a>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
 

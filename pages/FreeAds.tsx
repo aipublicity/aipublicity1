@@ -39,16 +39,20 @@ const FreeAds: React.FC = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const formBody = new URLSearchParams();
-    formBody.append('form-name', 'free-ads');
-    Object.keys(formData).forEach(key => {
-      formBody.append(key, (formData as any)[key]);
-    });
+    const encode = (data: Record<string, string>) => {
+      return Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
+    };
 
     fetch('/', {
       method: 'POST',
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: formBody.toString()
+      body: encode({
+        "form-name": "free-ads",
+        "bot-field": "", // Explicitly include the honeypot field
+        ...formData
+      })
     })
     .then((response) => {
       if (response.ok) {
@@ -130,15 +134,43 @@ const FreeAds: React.FC = () => {
           
           <div className="p-8 md:p-12">
             {submitted ? (
-               <div className="text-center py-12">
+               <div className="text-center py-12 flex flex-col items-center">
                 <div className="w-24 h-24 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
                   <CheckCircle className="w-12 h-12 text-green-400" />
                 </div>
                 <h3 className="text-3xl font-bold text-white mb-4">Application Received!</h3>
-                <p className="text-slate-400 max-w-md mx-auto mb-8 text-lg">
+                <p className="text-slate-400 max-w-md mx-auto mb-8 text-lg leading-relaxed">
                   Thank you for applying. We will review your business details and reach out if you are selected for the next slot in our series!
                 </p>
-                <button onClick={() => setSubmitted(false)} className="text-cyan-400 font-semibold hover:underline">Submit another application</button>
+                
+                {/* Instagram Accelerator Section */}
+                <div className="max-w-md w-full bg-gradient-to-br from-slate-800/50 to-purple-900/20 rounded-2xl p-6 border border-purple-500/30 mb-10 animate-fade-in-up relative overflow-hidden group/insta">
+                   <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 via-pink-500/5 to-purple-500/5 opacity-0 group-hover/insta:opacity-100 transition-opacity duration-500"></div>
+                   <div className="relative z-10 flex flex-col items-center">
+                      <a 
+                        href="https://www.instagram.com/ai.publicity/" 
+                        target="_blank" 
+                        rel="noreferrer"
+                        className="w-16 h-16 mb-4 bg-gradient-to-tr from-yellow-500 via-red-500 to-purple-600 rounded-2xl shadow-lg flex items-center justify-center hover:scale-110 hover:rotate-3 transition-all duration-300"
+                      >
+                        <Instagram className="w-8 h-8 text-white" />
+                      </a>
+                      <p className="text-slate-200 text-center leading-relaxed">
+                        To speed up your application, please follow us on Instagram{' '}
+                        <a 
+                          href="https://www.instagram.com/ai.publicity/" 
+                          target="_blank" 
+                          rel="noreferrer"
+                          className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-pink-500 hover:from-orange-300 hover:to-pink-400 transition-all"
+                        >
+                           @AI.Publicity
+                        </a>
+                        {' '}and send us a DM saying <span className="font-bold text-white italic">"Applied"</span>
+                      </p>
+                   </div>
+                </div>
+
+                <button onClick={() => setSubmitted(false)} className="text-cyan-400 font-semibold hover:underline hover:text-cyan-300 transition-colors">Submit another application</button>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-8">
