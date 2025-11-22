@@ -93,7 +93,7 @@ const Home: React.FC = () => {
           
           <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-8 leading-tight drop-shadow-2xl">
             <span className="block mb-2 md:mb-4">We Automate Growth for</span>
-            <span className="block"><TypewriterText /></span>
+            <span className="block min-h-[1.3em]"><TypewriterText /></span>
           </h1>
           
           <p className="text-lg md:text-xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
