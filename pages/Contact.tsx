@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, Mail, MessageSquare, CheckCircle, Loader2, Phone, Instagram, Share2 } from 'lucide-react';
+import { Send, Mail, CheckCircle, Loader2, Phone, Instagram, Share2 } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 // Custom TikTok Icon
@@ -99,17 +99,6 @@ const Contact: React.FC = () => {
                 <div>
                   <p className="text-sm text-slate-500 font-medium mb-1">Call Us</p>
                   <p className="text-white font-bold text-lg">{content.contact.phone}</p>
-                </div>
-              </div>
-
-              {/* Live Chat Block */}
-               <div className="flex items-center space-x-4 p-5 rounded-2xl bg-white/5 border border-white/10 group hover:bg-white/10 transition-all hover:-translate-x-[-8px] duration-300 cursor-default">
-                <div className="p-3 bg-purple-500/10 rounded-xl group-hover:bg-purple-500/20 transition-colors">
-                    <MessageSquare className="w-6 h-6 text-purple-400 group-hover:animate-tada" />
-                </div>
-                <div>
-                  <p className="text-sm text-slate-500 font-medium mb-1">Live Chat</p>
-                  <p className="text-white font-bold text-lg">Available Mon-Fri, 9am-5pm</p>
                 </div>
               </div>
 
