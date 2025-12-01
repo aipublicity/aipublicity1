@@ -4,7 +4,7 @@ import { CheckCircle, Package, Clock, Instagram, Home, ArrowRight } from 'lucide
 import { useContent } from '../context/ContentContext';
 import confetti from 'canvas-confetti';
 
-// Custom TikTok Icon (Redefined here to avoid circular dependencies or props drilling)
+// Custom TikTok Icon
 const TikTokIcon = ({ className }: { className?: string }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
