@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, PlayCircle, Cpu, TrendingUp, Sparkles } from 'lucide-react';
+import { Calendar, PlayCircle, Cpu, TrendingUp, Sparkles, Target, Lightbulb } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 import TechStack from '../components/TechStack';
 
@@ -23,14 +23,14 @@ const TypewriterText = () => {
 
     if (isDeleting) {
       // Deleting Phase
-      // If it's the last word ("YOU"), delete at normal speed. 
-      // For "scramble" words, delete almost instantly.
-      timeoutSpeed = isLastWord ? 75 : 15; 
+      // If it's the last word ("YOU"), delete slower. 
+      // For "scramble" words, delete quickly but smoothly.
+      timeoutSpeed = isLastWord ? 100 : 30; 
     } else {
       // Typing Phase
-      // If it's "YOU", type normally. 
-      // For "scramble" words, type extremely fast.
-      timeoutSpeed = isLastWord ? 150 : 25; 
+      // If it's "YOU", type deliberately slow (natural). 
+      // For "scramble" words, type briskly but readable.
+      timeoutSpeed = isLastWord ? 200 : 60; 
     }
 
     // Pause logic at full word
@@ -38,10 +38,10 @@ const TypewriterText = () => {
        if (isLastWord) {
          timeoutSpeed = 5000; // Freeze 5s on "YOU"
        } else {
-         timeoutSpeed = 50; // Barely pause on rapid-fire words
+         timeoutSpeed = 800; // Pause slightly on words to make them readable
        }
     } else if (isDeleting && text === '') {
-       timeoutSpeed = 10; // Instant switch to next word
+       timeoutSpeed = 200; // Slight pause before starting next word
     }
 
     const timer = setTimeout(() => {
@@ -110,8 +110,8 @@ const Home: React.FC = () => {
             >
               <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-shimmer"></span>
               <span className="relative flex items-center gap-2">
-                {content.hero.ctaText}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                Book an Appointment
+                <Calendar className="w-5 h-5 group-hover:-translate-y-1 transition-transform" />
               </span>
             </Link>
              <Link 
@@ -127,6 +127,47 @@ const Home: React.FC = () => {
 
       {/* Tech Stack Marquee */}
       <TechStack />
+
+      {/* Mission & Vision Section (Consolidated from About Page) */}
+      <section className="py-24 bg-slate-900/30 border-y border-white/5 relative overflow-hidden">
+         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-purple-900/10 to-transparent rounded-full blur-3xl pointer-events-none -mr-48 -mt-48"></div>
+         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div className="text-center mb-16">
+              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">Why <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">AI Publicity</span>?</h2>
+              <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                 We are a forward-thinking agency at the intersection of creativity and technology. We don't just create content; we engineer influence using the world's most advanced AI tools.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+              {/* Mission Card */}
+              <div className="p-10 rounded-3xl bg-slate-950/60 backdrop-blur-md border border-white/10 hover:border-purple-500/30 transition-all duration-500 group hover:shadow-[0_0_30px_rgba(168,85,247,0.1)]">
+                 <div className="flex items-center space-x-4 mb-6">
+                    <div className="p-3 rounded-full bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors border border-purple-500/20 group-hover:scale-110 duration-300">
+                      <Target className="w-8 h-8 text-purple-400 group-hover:rotate-[360deg] transition-transform duration-700 ease-in-out" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white">Our Mission</h3>
+                 </div>
+                 <p className="text-slate-300 leading-relaxed text-lg">
+                    {content.about.mission}
+                 </p>
+              </div>
+
+              {/* Vision Card */}
+              <div className="p-10 rounded-3xl bg-slate-950/60 backdrop-blur-md border border-white/10 hover:border-cyan-500/30 transition-all duration-500 group hover:shadow-[0_0_30px_rgba(34,211,238,0.1)]">
+                 <div className="flex items-center space-x-4 mb-6">
+                    <div className="p-3 rounded-full bg-cyan-500/10 group-hover:bg-cyan-500/20 transition-colors border border-cyan-500/20 group-hover:scale-110 duration-300">
+                      <Lightbulb className="w-8 h-8 text-cyan-400 group-hover:animate-pulse" />
+                    </div>
+                    <h3 className="text-2xl font-bold text-white">Our Vision</h3>
+                 </div>
+                 <p className="text-slate-300 leading-relaxed text-lg">
+                    {content.about.vision}
+                 </p>
+              </div>
+            </div>
+         </div>
+      </section>
 
       {/* Quick Features */}
       <section className="py-24 bg-slate-950 relative">

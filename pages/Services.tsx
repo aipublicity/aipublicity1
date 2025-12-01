@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Check, Video, Bot, Zap, Share2, PenTool, Cpu, Tag, ArrowDown } from 'lucide-react';
 import { SERVICES_LIST, PRICING_SOCIAL, PRICING_AI_AGENT, PRICING_BUNDLES } from '../constants';
 import { PricingTier } from '../types';
@@ -16,6 +16,7 @@ const iconMap: any = {
 
 const Services: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'social' | 'ai' | 'bundles'>('bundles');
+  const navigate = useNavigate();
 
   const renderPricingCard = (tier: PricingTier) => (
     <div 
@@ -68,8 +69,8 @@ const Services: React.FC = () => {
           </li>
         ))}
       </ul>
-      <Link 
-        to={`/booking?package=${encodeURIComponent(tier.name)}`}
+      <button 
+        onClick={() => navigate('/contact', { state: { packageName: tier.name } })}
         className={`relative overflow-hidden block w-full text-center py-3.5 px-4 rounded-lg font-bold transition-all duration-300 transform group-hover:scale-[1.02] ${
           tier.highlight
             ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-slate-950 hover:shadow-[0_0_20px_rgba(34,211,238,0.5)]'
@@ -77,7 +78,7 @@ const Services: React.FC = () => {
         }`}
       >
         <span className="relative z-10">Claim Offer</span>
-      </Link>
+      </button>
     </div>
   );
 

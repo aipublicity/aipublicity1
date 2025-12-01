@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Bot, Instagram, Mail, Phone, MapPin, Tag } from 'lucide-react';
+import { Menu, X, Bot, Instagram, Mail, Phone, MapPin, Tag, Calendar } from 'lucide-react';
 import { useContent } from '../context/ContentContext';
 
 // Custom TikTok Icon component
@@ -37,8 +37,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     { path: '/', label: 'Home' },
     { path: '/services', label: 'Services & Pricing' },
     { path: '/free-ads', label: 'Free Ads' },
-    { path: '/about', label: 'About' },
-    { path: '/contact', label: 'Contact' },
+    { path: '/contact', label: 'Book Strategy Call' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -113,19 +112,39 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
             {/* Navigation Links */}
             <div className="flex items-center space-x-2">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`${
-                      isActive(link.path)
-                        ? 'text-cyan-400 bg-white/5 shadow-[0_0_15px_rgba(34,211,238,0.1)]'
-                        : 'text-slate-300 hover:text-white hover:bg-white/5'
-                    } px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 antialiased`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {navLinks.map((link) => {
+                  if (link.path === '/contact') {
+                    // Distinct Call-To-Action Button Style
+                    return (
+                      <Link
+                        key={link.path}
+                        to={link.path}
+                        className="relative group overflow-hidden px-6 py-2.5 rounded-full font-bold text-white bg-gradient-to-r from-purple-600 to-cyan-600 shadow-lg shadow-cyan-500/20 hover:scale-105 transition-all duration-300 flex items-center gap-2 antialiased"
+                      >
+                         {/* Diagonal Shimmer Effect */}
+                         <div className="absolute inset-0 -translate-x-full animate-[shimmer_3s_infinite] bg-gradient-to-r from-transparent via-white/25 to-transparent z-0 skew-x-[-20deg]"></div>
+                         
+                         <Calendar className="w-4 h-4 relative z-10" />
+                         <span className="relative z-10">{link.label}</span>
+                      </Link>
+                    );
+                  }
+
+                  // Standard Nav Link Style
+                  return (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      className={`${
+                        isActive(link.path)
+                          ? 'text-cyan-400 bg-white/5 shadow-[0_0_15px_rgba(34,211,238,0.1)]'
+                          : 'text-slate-300 hover:text-white hover:bg-white/5'
+                      } px-5 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:-translate-y-0.5 antialiased`}
+                    >
+                      {link.label}
+                    </Link>
+                  );
+                })}
             </div>
           </div>
         </div>
@@ -143,8 +162,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     isActive(link.path)
                       ? 'bg-slate-800 text-cyan-400'
                       : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                  } block px-3 py-2 rounded-md text-base font-medium antialiased`}
+                  } px-3 py-2 rounded-md text-base font-medium antialiased flex items-center gap-2`}
                 >
+                  {link.path === '/contact' && <Calendar className="w-4 h-4" />}
                   {link.label}
                 </Link>
               ))}
@@ -230,7 +250,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                  Navigation
               </h3>
               <ul className="space-y-2">
-                {navLinks.slice(0,4).map((link) => (
+                {navLinks.map((link) => (
                   <li key={link.path}>
                     <Link to={link.path} className="text-slate-400 hover:text-cyan-400 text-sm transition-all hover:translate-x-2 inline-block flex items-center gap-2 group antialiased">
                       <span className="w-1 h-1 rounded-full bg-slate-600 group-hover:bg-cyan-400 transition-colors"></span>

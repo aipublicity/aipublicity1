@@ -4,7 +4,6 @@ import Layout from './components/Layout';
 import Home from './pages/Home';
 import Services from './pages/Services';
 import Portfolio from './pages/Portfolio';
-import About from './pages/About';
 import Contact from './pages/Contact';
 import Booking from './pages/Booking';
 import FreeAds from './pages/FreeAds';
@@ -32,7 +31,6 @@ const App: React.FC = () => {
             <Route path="/services" element={<Services />} />
             <Route path="/free-ads" element={<FreeAds />} />
             <Route path="/portfolio" element={<Portfolio />} />
-            <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/booking" element={<Booking />} />
           </Routes>
